@@ -10,13 +10,7 @@
       "cmakeCommandArgs": "",
       "buildCommandArgs": "-v",
       "ctestCommandArgs": "",
-      "variables": [
-        {
-          "name": "CMAKE_INSTALL_PREFIX",
-          "value": "F:/diplom/code/latest_without_ai/pseudo3DEngine/out/install/x64-Debug",
-          "type": "PATH"
-        }
-      ]
+      "variables": []
     },
     {
       "name": "x64-Release",
@@ -28,13 +22,7 @@
       "buildCommandArgs": "-v",
       "ctestCommandArgs": "",
       "inheritEnvironments": [ "msvc_x64_x64" ],
-      "variables": [
-        {
-          "name": "CMAKE_INSTALL_PREFIX",
-          "value": "F:/diplom/code/latest_without_ai/pseudo3DEngine/out/install/x64-Release",
-          "type": "PATH"
-        }
-      ]
+      "variables": []
     }
   ]
 }

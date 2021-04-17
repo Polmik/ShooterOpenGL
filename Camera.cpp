@@ -218,14 +218,14 @@ void Camera::objectsRayCrossed(const pair<Point2D, Point2D>& ray, std::vector<Ra
     if (!nearObject.empty() && name == getName() && (W_world[nearObject]->position() - position()).abs() <= COLLISION_AREA && W_world[nearObject]->type() == ObjectType::Bonus)
     {
         bonusM.lock();
-        if(reinterpret_cast<Bonus*>(W_world[nearObject].get())->bonusType() == BonusType::Heal)
+        if(reinterpret_cast<Bonus*>(W_world[nearObject].get())->getBonusType() == BonusType::Heal)
             client->shoot(getName(), -100, 1);
-        if(reinterpret_cast<Bonus*>(W_world[nearObject].get())->bonusType() == BonusType::Ammo)
+        if(reinterpret_cast<Bonus*>(W_world[nearObject].get())->getBonusType() == BonusType::Ammo)
             v_weapons[i_selectedWeapon].add(15);
-        if(reinterpret_cast<Bonus*>(W_world[nearObject].get())->bonusType() == BonusType::Vision)
+        if(reinterpret_cast<Bonus*>(W_world[nearObject].get())->getBonusType() == BonusType::Vision)
             if(d_fieldOfView < PI/2)
                 setFieldOfView(d_fieldOfView + (double)PI/20);
-        if(reinterpret_cast<Bonus*>(W_world[nearObject].get())->bonusType() == BonusType::Speed) {
+        if(reinterpret_cast<Bonus*>(W_world[nearObject].get())->getBonusType() == BonusType::Speed) {
             if (d_walkSpeed < 7)
                 d_walkSpeed += 0.5;
             if(d_jumpSpeed < 10)

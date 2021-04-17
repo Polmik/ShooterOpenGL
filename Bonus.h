@@ -18,11 +18,11 @@ private:
     BonusType bonusType;
 
 public:
-    explicit Bonus(Point2D position = { 0, 0 }, BonusType bonusType = BonusType::Heal, const std::string texture = HEALTH_TEXTURE);
+    explicit Bonus(Point2D position = { 0, 0 }, BonusType bType = BonusType::Heal, const std::string texture = HEALTH_TEXTURE);
 
     ObjectType type() override;
 
-    [[nodiscard]] BonusType bonusType() const {
+    [[nodiscard]] BonusType getBonusType() const {
         return bonusType;
     }
 };
