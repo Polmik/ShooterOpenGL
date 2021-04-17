@@ -5,17 +5,17 @@
 
 struct Button
 {
-    sf::Texture* T_Texture;
-    sf::Texture* T_PressedTexture;
-    sf::Sprite button;
-    std::string name;
+    sf::Texture* ButtonTexture;
+    sf::Texture* ButtonPressedTexture;
+    sf::Sprite buttonSprite;
+    std::string buttonName;
 
-    bool selected = false;
-    bool pressed = false;
+    bool isSelected = false;
+    bool isPressed = false;
 
-    void select();
-    void unSelect();
-    void press();
+    void selectButton();
+    void unselectButton();
+    void pressButton();
 };
 
 

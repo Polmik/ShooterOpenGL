@@ -4,46 +4,46 @@ Menu::Menu()
 {
     buttons.assign(7, {});
 
-    buttons[0].name = "PLAYGAME";
-    buttons[1].name = "SETTINGS";
-    buttons[2].name = "ABOUT";
-    buttons[3].name = "QUIT";
-    buttons[0].T_Texture = ResourceManager::loadTexture(PLAYGAME_TEXTURE);
-    buttons[1].T_Texture = ResourceManager::loadTexture(SETTINGS_TEXTURE);
-    buttons[2].T_Texture = ResourceManager::loadTexture(ABOUT_TEXTURE);
-    buttons[3].T_Texture = ResourceManager::loadTexture(QUIT_TEXTURE);
+    buttons[0].buttonName = "PLAYGAME";
+    buttons[1].buttonName = "SETTINGS";
+    buttons[2].buttonName = "ABOUT";
+    buttons[3].buttonName = "QUIT";
+    buttons[0].ButtonTexture = ResourceManager::loadTexture(PLAYGAME_TEXTURE);
+    buttons[1].ButtonTexture = ResourceManager::loadTexture(SETTINGS_TEXTURE);
+    buttons[2].ButtonTexture = ResourceManager::loadTexture(ABOUT_TEXTURE);
+    buttons[3].ButtonTexture = ResourceManager::loadTexture(QUIT_TEXTURE);
 
-    buttons[0].T_PressedTexture = ResourceManager::loadTexture(PLAYGAME_PRESSED_TEXTURE);
-    buttons[1].T_PressedTexture = ResourceManager::loadTexture(SETTINGS_PRESSED_TEXTURE);
-    buttons[2].T_PressedTexture = ResourceManager::loadTexture(ABOUT_PRESSED_TEXTURE);
-    buttons[3].T_PressedTexture = ResourceManager::loadTexture(QUIT_PRESSED_TEXTURE);
+    buttons[0].ButtonPressedTexture = ResourceManager::loadTexture(PLAYGAME_PRESSED_TEXTURE);
+    buttons[1].ButtonPressedTexture = ResourceManager::loadTexture(SETTINGS_PRESSED_TEXTURE);
+    buttons[2].ButtonPressedTexture = ResourceManager::loadTexture(ABOUT_PRESSED_TEXTURE);
+    buttons[3].ButtonPressedTexture = ResourceManager::loadTexture(QUIT_PRESSED_TEXTURE);
 
-    buttons[4].name = "TEXTURING";
-    buttons[5].name = "SMOOTHING";
-    buttons[6].name = "COLLISION";
-    buttons[4].T_Texture = ResourceManager::loadTexture(TEXTURING_SELECT);
-    buttons[5].T_Texture = ResourceManager::loadTexture(SMOOTHING_SELECT);
-    buttons[6].T_Texture = ResourceManager::loadTexture(COLLISION_SELECT);
+    buttons[4].buttonName = "TEXTURING";
+    buttons[5].buttonName = "SMOOTHING";
+    buttons[6].buttonName = "COLLISION";
+    buttons[4].ButtonTexture = ResourceManager::loadTexture(TEXTURING_SELECT);
+    buttons[5].ButtonTexture = ResourceManager::loadTexture(SMOOTHING_SELECT);
+    buttons[6].ButtonTexture = ResourceManager::loadTexture(COLLISION_SELECT);
 
-    buttons[4].T_PressedTexture = ResourceManager::loadTexture(TEXTURING_SELECT_S);
-    buttons[5].T_PressedTexture = ResourceManager::loadTexture(SMOOTHING_SELECT_S);
-    buttons[6].T_PressedTexture = ResourceManager::loadTexture(COLLISION_SELECT_S);
+    buttons[4].ButtonPressedTexture = ResourceManager::loadTexture(TEXTURING_SELECT_S);
+    buttons[5].ButtonPressedTexture = ResourceManager::loadTexture(SMOOTHING_SELECT_S);
+    buttons[6].ButtonPressedTexture = ResourceManager::loadTexture(COLLISION_SELECT_S);
 
     for (size_t i = 0; i < buttons.size(); i++)
     {
-        buttons[i].button.setTexture(*buttons[i].T_Texture);
+        buttons[i].buttonSprite.setTexture(*buttons[i].ButtonTexture);
         if (i < 4)
-            buttons[i].button.setPosition((float)SCREEN_WIDTH / 2 - 170, (float)50 + 150 * i);
+            buttons[i].buttonSprite.setPosition((float)SCREEN_WIDTH / 2 - 170, (float)50 + 150 * i);
         else
-            buttons[i].button.setPosition((float)SCREEN_WIDTH / 2 - 170, (float)50 + 150 * (i - 4));
+            buttons[i].buttonSprite.setPosition((float)SCREEN_WIDTH / 2 - 170, (float)50 + 150 * (i - 4));
     }
 
     if (b_textures)
-        buttons[4].press();
+        buttons[4].pressButton();
     if (b_smooth)
-        buttons[5].press();
+        buttons[5].pressButton();
     if (b_collision)
-        buttons[6].press();
+        buttons[6].pressButton();
 }
 
 void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
@@ -65,32 +65,32 @@ void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
     b_pressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
     for (size_t i = 0; i < buttons.size(); i++)
     {
-        if (!buttons[i].button.getGlobalBounds().contains(mouseX, mouseY))
-            buttons[i].unSelect();
+        if (!buttons[i].buttonSprite.getGlobalBounds().contains(mouseX, mouseY))
+            buttons[i].unselectButton();
         else
         {
-            buttons[i].select();
+            buttons[i].selectButton();
             if (window.hasFocus() && b_pressing)
             {
-                buttons[i].unSelect();
+                buttons[i].unselectButton();
                 if (!b_settings)
                 {
-                    if (buttons[i].name == "PLAYGAME")
+                    if (buttons[i].buttonName == "PLAYGAME")
                     {
                         b_pause = false;
                         b_pressing = false;
                     }
-                    else if (buttons[i].name == "SETTINGS")
+                    else if (buttons[i].buttonName == "SETTINGS")
                     {
                         b_settings = true;
                         b_pressing = false;
                     }
-                    else if (buttons[i].name == "ABOUT")
+                    else if (buttons[i].buttonName == "ABOUT")
                     {
                         b_about = true;
                         b_pressing = false;
                     }
-                    else if (buttons[i].name == "QUIT")
+                    else if (buttons[i].buttonName == "QUIT")
                     {
                         window.close();
                         b_pressing = false;
@@ -98,22 +98,22 @@ void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
                 }
                 else
                 {
-                    if (buttons[i].name == "TEXTURING")
+                    if (buttons[i].buttonName == "TEXTURING")
                     {
-                        buttons[i].press();
-                        b_textures = buttons[i].pressed;
+                        buttons[i].pressButton();
+                        b_textures = buttons[i].isPressed;
                         b_pressing = false;
                     }
-                    else if (buttons[i].name == "SMOOTHING")
+                    else if (buttons[i].buttonName == "SMOOTHING")
                     {
-                        buttons[i].press();
-                        b_smooth = buttons[i].pressed;
+                        buttons[i].pressButton();
+                        b_smooth = buttons[i].isPressed;
                         b_pressing = false;
                     }
-                    else if (buttons[i].name == "COLLISION")
+                    else if (buttons[i].buttonName == "COLLISION")
                     {
-                        buttons[i].press();
-                        b_collision = buttons[i].pressed;
+                        buttons[i].pressButton();
+                        b_collision = buttons[i].isPressed;
                         b_pressing = false;
                     }
                 }
@@ -121,7 +121,7 @@ void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
         }
 
         if (!b_settings && !b_about && i < 4)
-            window.draw(buttons[i].button);
+            window.draw(buttons[i].buttonSprite);
     }
 
     settings(window);
@@ -149,7 +149,7 @@ void Menu::settings(sf::RenderTarget& window)
         return;
 
     for (size_t i = 4; i < buttons.size(); i++)
-        window.draw(buttons[i].button);
+        window.draw(buttons[i].buttonSprite);
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         b_settings = false;

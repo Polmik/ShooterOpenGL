@@ -1,35 +1,35 @@
 #include "Button.h"
 
-void Button::select()
+void Button::selectButton()
 {
-    if (!selected && !pressed)
+    if (!isSelected && !isPressed)
     {
-        button.setTexture(*T_PressedTexture);
-        selected = true;
-        button.scale({ 1.01f, 1.01f });
+        isSelected = true;
+        buttonSprite.setTexture(*ButtonPressedTexture);
+        buttonSprite.scale({ 1.01f, 1.01f });
     }
 }
 
-void Button::unSelect()
+void Button::unselectButton()
 {
-    if (selected && !pressed)
+    if (isSelected && !isPressed)
     {
-        button.setTexture(*T_Texture);
-        selected = false;
-        button.scale({ 1 / 1.01f, 1 / 1.01f });
+        isSelected = false;
+        buttonSprite.setTexture(*ButtonTexture);
+        buttonSprite.scale({ 1 / 1.01f, 1 / 1.01f });
     }
 }
 
-void Button::press()
+void Button::pressButton()
 {
-    if (!pressed)
+    if (!isPressed)
     {
-        button.setTexture(*T_PressedTexture);
-        pressed = true;
+        isPressed = true;
+        buttonSprite.setTexture(*ButtonPressedTexture);
     }
     else
     {
-        button.setTexture(*T_Texture);
-        pressed = false;
+        isPressed = false;
+        buttonSprite.setTexture(*ButtonTexture);
     }
 }
