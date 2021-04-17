@@ -215,7 +215,7 @@ void Camera::objectsRayCrossed(const pair<Point2D, Point2D>& ray, std::vector<Ra
         collisionM.unlock();
     }
     // Bonus collision
-    if (!nearObject.empty() && name == getName() && (W_world[nearObject]->position() - position()).abs() <= COLLISION_AREA && W_world[nearObject]->type() == ObjectType::Bonus)
+    if (!nearObject.empty() && name == getName() && (W_world[nearObject]->position() - position()).abs() <= COLLISION_AREA && W_world[nearObject]->getType() == ObjectType::Bonus)
     {
         bonusM.lock();
         if(reinterpret_cast<Bonus*>(W_world[nearObject].get())->getBonusType() == BonusType::Heal)
@@ -427,7 +427,7 @@ std::pair<Object2D*, double> Camera::cameraRayCheck(RayCastStructure& structure)
     std::pair<Object2D*, double> result = { nullptr, 1 };
 
     // If hit player
-    if (structure.object->type() == ObjectType::Player)
+    if (structure.object->getType() == ObjectType::Player)
     {
         auto heights = heightInPixels(structure.distance, structure.object->height(), dynamic_cast<Player*>(structure.object)->vPos());
         heights.first = std::min(mirrorBot, std::max(mirrorTop, heights.first));
@@ -579,7 +579,7 @@ void Camera::drawVerticalStrip(sf::RenderTarget& window, const RayCastStructure&
         polygon.setPointCount(4);
 
         double vertical = 0;
-        if (obj.object->type() == ObjectType::Player)
+        if (obj.object->getType() == ObjectType::Player)
             vertical = dynamic_cast<Player*>(obj.object)->vPos();
         pair<double, double> height_now = heightInPixels(obj.distance * horizontalCos[horIndex], obj.height, vertical);
 

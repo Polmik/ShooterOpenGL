@@ -15,7 +15,7 @@ Player::Player(Point2D position, double vPos, double height, double health, std:
 //    setName(camera.getName());
 //}
 
-ObjectType Player::type()
+ObjectType Player::getType()
 {
     return ObjectType::Player;
 }

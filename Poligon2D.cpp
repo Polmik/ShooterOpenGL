@@ -6,7 +6,7 @@ Poligon2D::Poligon2D(std::vector<Point2D> points2D, Point2D position, double hei
 {
 }
 
-ObjectType Poligon2D::type()
+ObjectType Poligon2D::getType()
 {
     return ObjectType::Object;
 }

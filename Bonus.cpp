@@ -4,6 +4,6 @@ Bonus::Bonus(Point2D position, BonusType bType, const std::string texture) : Obj
 
 }
 
-ObjectType Bonus::type() {
+ObjectType Bonus::getType() {
     return ObjectType::Bonus;
 }

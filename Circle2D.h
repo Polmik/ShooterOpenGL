@@ -12,7 +12,7 @@ private:
 public:
     explicit Circle2D(double radius = 0.5, Point2D position = { 0, 0 }, double height = 1, const std::string& texture = COLUMN_TEXTURE, int convexNumber = CIRCLE_CONVEX_NUMBER);
 
-    ObjectType type() override;
+    ObjectType getType() override;
 
     // Check the intersection of the ray with this circle.
     // Returns true if ray intersects with this circle, false otherwise.

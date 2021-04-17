@@ -20,7 +20,7 @@ Object2D::Object2D(const Object2D& object2D) : T_texture(object2D.T_texture)
 
 // Miscellaneous
 
-ObjectType Object2D::type()
+ObjectType Object2D::getType()
 {
     return ObjectType::Object;
 }

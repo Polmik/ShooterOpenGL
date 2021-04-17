@@ -41,7 +41,7 @@ public:
 
     void draw(sf::RenderTarget& window) override;
     sf::Texture& loadTexture();
-    virtual ObjectType type();
+    virtual ObjectType getType();
 
     double height() const;
     double x() const;

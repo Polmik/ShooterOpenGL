@@ -26,10 +26,8 @@ void Button::pressButton()
     {
         isPressed = true;
         buttonSprite.setTexture(*ButtonPressedTexture);
+        return;
     }
-    else
-    {
-        isPressed = false;
-        buttonSprite.setTexture(*ButtonTexture);
-    }
+    isPressed = false;
+    buttonSprite.setTexture(*ButtonTexture);
 }

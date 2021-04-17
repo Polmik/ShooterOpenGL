@@ -14,7 +14,7 @@ public:
     Player(const Player&) = delete;//Player(const Player& player);
 
     // Return ObjectType::Player
-    ObjectType type() override;
+    ObjectType getType() override;
 
     // Check the intersection of the ray with player.
     // Returns true if ray intersects with player, false otherwise.

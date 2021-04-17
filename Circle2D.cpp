@@ -13,7 +13,7 @@ Circle2D::Circle2D(double radius, Point2D position, double height, const std::st
     }
 }
 
-ObjectType Circle2D::type()
+ObjectType Circle2D::getType()
 {
     return ObjectType::Circle;
 }
