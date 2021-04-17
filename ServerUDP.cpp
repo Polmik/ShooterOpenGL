@@ -15,7 +15,7 @@ bool ServerUDP::isWorking() const
 
 bool ServerUDP::start(sf::Uint16 port)
 {
-    return _working = _socket.bind(port);
+    return _working = _socket.bindSocket(port);
 }
 
 void ServerUDP::update()
@@ -61,7 +61,7 @@ void ServerUDP::stop()
         _socket.send(packet, it->first);
         _players.erase(it++);
     }
-    _socket.unbind();
+    _socket.unbindSocket();
     _working = false;
 }
 

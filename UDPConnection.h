@@ -13,13 +13,13 @@ private:
 
 public:
     explicit UDPConnection(sf::Uint16 id, sf::IpAddress ip, sf::Uint16 port);
-    sf::Uint16 id() const;
-    const sf::IpAddress& ip() const;
-    sf::Uint16 port() const;
-    bool timeout() const;
-    bool same(sf::IpAddress& ip, sf::Uint16 port) const;
+    sf::Uint16 getId() const;
+    const sf::IpAddress& getIp() const;
+    sf::Uint16 getPort() const;
+    bool isTimeout() const;
+    bool equals(sf::IpAddress& ip, sf::Uint16 port) const;
     void update();
-    void send(sf::UdpSocket& socket, sf::Packet& packet);
+    void sendPacket(sf::UdpSocket& socket, sf::Packet& packet);
 };
 
 

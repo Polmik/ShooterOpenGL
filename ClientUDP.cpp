@@ -42,7 +42,7 @@ void ClientUDP::connect(sf::IpAddress ip, sf::Uint16 port)
 {
     sf::Packet packet;
     packet << MsgType::Connect << NETWORK_VERSION;
-    _socket.bind(0);
+    _socket.bindSocket(0);
     _working = true;
     _socket.addConnection(_socket.serverId(), ip, port);
     _socket.sendRely(packet, _socket.serverId());
@@ -80,7 +80,7 @@ void ClientUDP::disconnect()
     sf::Packet packet;
     packet << MsgType::Disconnect << _socket.ownId();
     _socket.send(packet, _socket.serverId());
-    _socket.unbind();
+    _socket.unbindSocket();
     _working = false;
 }
 

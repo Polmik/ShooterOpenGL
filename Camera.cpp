@@ -221,7 +221,7 @@ void Camera::objectsRayCrossed(const pair<Point2D, Point2D>& ray, std::vector<Ra
         if(reinterpret_cast<Bonus*>(W_world[nearObject].get())->getBonusType() == BonusType::Heal)
             client->shoot(getName(), -100, 1);
         if(reinterpret_cast<Bonus*>(W_world[nearObject].get())->getBonusType() == BonusType::Ammo)
-            v_weapons[i_selectedWeapon].add(15);
+            v_weapons[i_selectedWeapon].addAmmo(15);
         if(reinterpret_cast<Bonus*>(W_world[nearObject].get())->getBonusType() == BonusType::Vision)
             if(d_fieldOfView < PI/2)
                 setFieldOfView(d_fieldOfView + (double)PI/20);
@@ -465,7 +465,7 @@ void Camera::fire()
     {
         std::pair<Object2D*, double> hitted = cameraRayCheck(v_rayCastStructure[v_rayCastStructure.size() - 1]);
         if (hitted.first && abs(reinterpret_cast<Player*>(hitted.first)->vPos() - vPos()) < d_eyesHeight)
-            client->shoot(hitted.first->getName(), v_weapons[i_selectedWeapon].damage(), hitted.second);
+            client->shoot(hitted.first->getName(), v_weapons[i_selectedWeapon].getDamage(), hitted.second);
     }
 }
 
@@ -521,7 +521,7 @@ bool Camera::keyboardControl(double elapsedTime, sf::RenderWindow& window)
     // Fire
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
-        if (v_weapons[i_selectedWeapon].fire())
+        if (v_weapons[i_selectedWeapon].isFire())
             fire();
     }
 
@@ -877,7 +877,7 @@ void Camera::drawCameraView(sf::RenderTarget& window)
     Text_shoots.setPosition(SCREEN_WIDTH - 130, SCREEN_HEIGHT - 102);
 
     Text_health.setString(to_string((int)health()));
-    Text_shoots.setString(to_string((int)v_weapons[i_selectedWeapon].balance()));
+    Text_shoots.setString(to_string((int)v_weapons[i_selectedWeapon].getAmmo()));
 
     window.draw(Text_health);
     window.draw(Text_shoots);

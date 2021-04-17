@@ -18,13 +18,13 @@ void UDPSocket::removeConnection(sf::Uint16 id)
     _connections.erase(id);
 }
 
-bool UDPSocket::bind(sf::Uint16 port)
+bool UDPSocket::bindSocket(sf::Uint16 port)
 {
     bool result = _socket.bind(port) == sf::Socket::Status::Done;
     return result;
 }
 
-void UDPSocket::unbind()
+void UDPSocket::unbindSocket()
 {
     sf::Packet packet;
     packet << MsgType::Disconnect << _ownId;
@@ -79,14 +79,14 @@ void UDPSocket::sendRely(sf::Packet& packet, sf::Uint16 id)
     sf::Packet finalPacket;
     finalPacket << _ownId << true << _nextRelyMsgId;
     finalPacket.append(packet.getData(), packet.getDataSize());
-    _relyPackets.insert({ _nextRelyMsgId++, ReliableMsg(finalPacket, _connections.at(id).ip(), _connections.at(id).port()) });
+    _relyPackets.insert({ _nextRelyMsgId++, ReliableMsg(finalPacket, _connections.at(id).getIp(), _connections.at(id).getPort()) });
 }
 
 void UDPSocket::update()
 {
     for (auto it = _connections.begin(); it != _connections.end();)
     {
-        if (!it->second.timeout())
+        if (!it->second.isTimeout())
             ++it;
         else
         {
@@ -128,7 +128,7 @@ void UDPSocket::send(sf::Packet& packet, sf::Uint16 id)
     sf::Packet finalPacket;
     finalPacket << _ownId << false << _serverId;
     finalPacket.append(packet.getData(), packet.getDataSize());
-    _connections.at(id).send(_socket, finalPacket);
+    _connections.at(id).sendPacket(_socket, finalPacket);
 }
 
 MsgType UDPSocket::receive(sf::Packet& packet, sf::Uint16& senderId)
@@ -171,7 +171,7 @@ MsgType UDPSocket::receive(sf::Packet& packet, sf::Uint16& senderId)
             if (!_connections.count(tmp))
                 senderId = tmp;
             else
-                if (_connections.at(tmp).same(ip, port))
+                if (_connections.at(tmp).equals(ip, port))
                     break;
         }
         if (tmp == 0)
@@ -180,7 +180,7 @@ MsgType UDPSocket::receive(sf::Packet& packet, sf::Uint16& senderId)
             return MsgType::Fake;
     }
 
-    if (!_connections.count(senderId) || !_connections.at(senderId).same(ip, port) || reply && confirmed(msgId, senderId))
+    if (!_connections.count(senderId) || !_connections.at(senderId).equals(ip, port) || reply && confirmed(msgId, senderId))
         return MsgType::Fake;
     return type;
 }
@@ -189,7 +189,7 @@ bool UDPSocket::confirmed(sf::Uint16 msgId, sf::Uint16 senderId)
 {
     sf::Packet confirmPacket;
     confirmPacket << _ownId << false << msgId << MsgType::Confirm;
-    _connections.at(senderId).send(_socket, confirmPacket);
+    _connections.at(senderId).sendPacket(_socket, confirmPacket);
 
     sf::Uint32 confirmId;
     confirmId = (senderId << 16) | msgId;

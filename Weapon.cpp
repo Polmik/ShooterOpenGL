@@ -29,12 +29,12 @@ Weapon::Weapon(const Weapon& weapon)
     this->i_damage = weapon.i_damage;
 }
 
-double Weapon::speed() const
+double Weapon::getSpeed() const
 {
     return d_speed;
 }
 
-int Weapon::damage() const
+int Weapon::getDamage() const
 {
     return i_damage;
 }
@@ -58,7 +58,7 @@ void Weapon::choiceWeapon(std::string name)
     }
 }
 
-bool Weapon::fire()
+bool Weapon::isFire()
 {
     if ((i_amount > 0) && (d_lastFireTime == 0))
     {
@@ -72,7 +72,7 @@ bool Weapon::fire()
     return false;
 }
 
-int Weapon::balance() const {
+int Weapon::getAmmo() const {
     return i_amount;
 }
 
