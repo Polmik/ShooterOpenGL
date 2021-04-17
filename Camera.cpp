@@ -172,7 +172,7 @@ void Camera::objectsRayCrossed(const pair<Point2D, Point2D>& ray, std::vector<Ra
 
         pair<Point2D, Point2D> wall;
         // If ray crossed with object
-        if (object.second.get()->cross(ray, wall, crossPoint, len))
+        if (object.second.get()->isCross(ray, wall, crossPoint, len))
         {
             // If it was mirror
             if (object.second.get()->isMirror() && scalarWithNormal(wall.second - wall.first, ray.second - ray.first) < 0 && reflections < 40)
@@ -258,7 +258,7 @@ void Camera::hiddenObjectsRayCrossed(const pair<Point2D, Point2D>& ray, const st
 
         // If object hitted and near closer than already finded - rember it
         pair<Point2D, Point2D> wall;
-        if (object.second.get()->cross(ray, wall, crossPoint, len) && (nearCross - ray.first).abs() > (crossPoint - ray.first).abs())
+        if (object.second.get()->isCross(ray, wall, crossPoint, len) && (nearCross - ray.first).abs() > (crossPoint - ray.first).abs())
         {
             nearCross = std::move(crossPoint);
             obj = object.second.get();

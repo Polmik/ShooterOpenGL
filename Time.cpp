@@ -9,17 +9,17 @@ namespace Time
 		double _deltaTime;
 	}
 
-	double time()
+	double getTime()
 	{
 		return _time;
 	}
 
-	double deltaTime()
+	double getDeltaTime()
 	{
 		return _deltaTime;
 	}
 
-	void update()
+	void updateTime()
 	{
 		std::chrono::duration<double> t = std::chrono::system_clock::now().time_since_epoch();
 		_deltaTime = t.count() - _time;

@@ -106,7 +106,7 @@ void UDPSocket::update()
 
     for (auto it = _confirmTimes.begin(); it != _confirmTimes.end();)
     {
-        if (Time::time() - it->second > TIMEOUT_SECONDS)
+        if (Time::getTime() - it->second > TIMEOUT_SECONDS)
             _confirmTimes.erase(it++);
         else
             ++it;
@@ -195,7 +195,7 @@ bool UDPSocket::confirmed(sf::Uint16 msgId, sf::Uint16 senderId)
     confirmId = (senderId << 16) | msgId;
 
     bool repeat = _confirmTimes.count(confirmId);
-    _confirmTimes[confirmId] = Time::time();
+    _confirmTimes[confirmId] = Time::getTime();
 
     return repeat;
 }

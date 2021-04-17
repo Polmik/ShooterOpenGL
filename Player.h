@@ -21,7 +21,7 @@ public:
     // wall - hitted segment.
     // point - hit point.
     // uv - distance from the beginning of segment to the hit point.
-    bool cross(const std::pair<Point2D, Point2D>& ray, std::pair<Point2D, Point2D>& wall, Point2D& point, double& uv) override;
+    bool isCross(const std::pair<Point2D, Point2D>& ray, std::pair<Point2D, Point2D>& wall, Point2D& point, double& uv) override;
 
     double vPos() const;
     void setVPos(double vPos);

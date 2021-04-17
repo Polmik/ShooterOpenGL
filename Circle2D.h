@@ -19,7 +19,7 @@ public:
     // wall - hitted wall.
     // point - hit point.
     // uv - distance from the beginning of wall to the hit point.
-    bool cross(const std::pair<Point2D, Point2D>& ray, std::pair<Point2D, Point2D>& wall, Point2D& point, double& uv) override;
+    bool isCross(const std::pair<Point2D, Point2D>& ray, std::pair<Point2D, Point2D>& wall, Point2D& point, double& uv) override;
 };
 
 

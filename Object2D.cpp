@@ -76,7 +76,7 @@ bool Object2D::segments_crossing(const std::pair<Point2D, Point2D>& segment1, co
     return true;
 }
 
-bool Object2D::cross(const std::pair<Point2D, Point2D>& ray, std::pair<Point2D, Point2D>& wall, Point2D& point, double& uv)
+bool Object2D::isCross(const std::pair<Point2D, Point2D>& ray, std::pair<Point2D, Point2D>& wall, Point2D& point, double& uv)
 {
     Point2D crossPoint = { 0, 0 };
     std::pair<Point2D, Point2D> segment2 = { p_position + v_points2D.back(), p_position + v_points2D.front() };

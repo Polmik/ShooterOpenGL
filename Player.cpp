@@ -20,9 +20,9 @@ ObjectType Player::getType()
     return ObjectType::Player;
 }
 
-bool Player::cross(const std::pair<Point2D, Point2D>& ray, std::pair<Point2D, Point2D>& wall, Point2D& point, double& uv)
+bool Player::isCross(const std::pair<Point2D, Point2D>& ray, std::pair<Point2D, Point2D>& wall, Point2D& point, double& uv)
 {
-    return Object2D::cross(ray, wall, point, uv);
+    return Object2D::isCross(ray, wall, point, uv);
 }
 
 double Player::vPos() const

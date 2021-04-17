@@ -100,8 +100,8 @@ int WinMain()
     while (window.isOpen())
     {
         // Time update
-        Time::update();
-        double d_elapsedTime = Time::deltaTime();
+        Time::updateTime();
+        double d_elapsedTime = Time::getDeltaTime();
 
         // Title update
         std::string title = "Pseudo3DEngine " + std::to_string((double)1 / d_elapsedTime) + "fps.";
@@ -161,11 +161,11 @@ int WinMain()
                 window.display();
                 InitNetwork(server, client);
                 // Waiting for connect and updating server if it's same window
-                while (client.isWorking() && !client.connected())
+                while (client.isWorking() && !client.isConnected())
                 {
                     client.update();
                     server.update();
-                    Time::update();
+                    Time::updateTime();
                 }
                 // If connect fail - return to menu
                 if (!client.isWorking())

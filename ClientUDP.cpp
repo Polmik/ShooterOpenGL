@@ -9,7 +9,7 @@ ClientUDP::ClientUDP(World& world) : _world(world), _lastBroadcast(-INFINITY), _
     _socket.setTimeoutCallback(std::bind(&ClientUDP::timeout, this, std::placeholders::_1));
 }
 
-bool ClientUDP::connected() const
+bool ClientUDP::isConnected() const
 {
     return _socket.ownId();
 }
@@ -57,12 +57,12 @@ void ClientUDP::update()
 
     // World state broadcast
 
-    if (Time::time() - _lastBroadcast > (double) 1 / WORLD_UPDATE_RATE && connected())
+    if (Time::getTime() - _lastBroadcast > (double) 1 / WORLD_UPDATE_RATE && isConnected())
     {
         sf::Packet updatePacket;
         updatePacket << MsgType::PlayerUpdate << _localPlayer->x() << _localPlayer->y() << _localPlayer->vPos();
         _socket.send(updatePacket, _socket.serverId());
-        _lastBroadcast = Time::time();
+        _lastBroadcast = Time::getTime();
     }
 
     // Socket update
@@ -103,7 +103,7 @@ bool ClientUDP::process()
 
     if ((type = _socket.receive(packet, senderId)) == MsgType::None)
         return false;
-    if (!connected() && type != MsgType::WorldInit)
+    if (!isConnected() && type != MsgType::WorldInit)
         return true;
 
     sf::Packet sendPacket;

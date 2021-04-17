@@ -24,7 +24,7 @@ private:
 public:
     ClientUDP(World& world);
     bool isWorking() const;
-    bool connected() const;
+    bool isConnected() const;
     Camera* localPlayer();
     void connect(sf::IpAddress ip, sf::Uint16 port);
     void disconnect();

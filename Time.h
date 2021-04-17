@@ -3,9 +3,9 @@
 
 namespace Time
 {
-    double time();
-    double deltaTime();
-    void update();
+    double getTime();
+    double getDeltaTime();
+    void updateTime();
 }
 
 

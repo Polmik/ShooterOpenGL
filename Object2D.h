@@ -33,7 +33,7 @@ public:
     // wall - hitted wall.
     // point - cross point.
     // uv - distance from the beginning of wall to the cross point.
-    virtual bool cross(const std::pair<Point2D, Point2D>& ray, std::pair<Point2D, Point2D>& wall, Point2D& point, double& uv);
+    virtual bool isCross(const std::pair<Point2D, Point2D>& ray, std::pair<Point2D, Point2D>& wall, Point2D& point, double& uv);
     // Check segments intersection.
     // Returns true if segments crossing, false otherwise.
     // point - cross point.

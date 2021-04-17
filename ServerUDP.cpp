@@ -27,7 +27,7 @@ void ServerUDP::update()
 
     // World state broadcast
 
-    if (Time::time() - _lastBroadcast > 1 / WORLD_UPDATE_RATE)
+    if (Time::getTime() - _lastBroadcast > 1 / WORLD_UPDATE_RATE)
     {
         sf::Packet updatePacket;
         updatePacket << MsgType::WorldUpdate;
@@ -35,7 +35,7 @@ void ServerUDP::update()
         for (auto&& player : _players)
         {
             Player& camera = *player.second;
-            camera.reduceHealth(-1 * (Time::time() - _lastBroadcast));
+            camera.reduceHealth(-1 * (Time::getTime() - _lastBroadcast));
             updatePacket << player.first << camera.position().x << camera.position().y << camera.vPos() << camera.health();
         }
 
@@ -44,7 +44,7 @@ void ServerUDP::update()
             _socket.send(updatePacket, player.first);
         }
 
-        _lastBroadcast = Time::time();
+        _lastBroadcast = Time::getTime();
     }
 
     // Socket update

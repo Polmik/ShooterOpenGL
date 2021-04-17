@@ -2,7 +2,7 @@
 #include "Time.h"
 #include "settings.h"
 
-UDPConnection::UDPConnection(sf::Uint16 id, sf::IpAddress ip, sf::Uint16 port) : _id(id), _ip(ip), _port(port), lastMsg(Time::time()) {}
+UDPConnection::UDPConnection(sf::Uint16 id, sf::IpAddress ip, sf::Uint16 port) : _id(id), _ip(ip), _port(port), lastMsg(Time::getTime()) {}
 
 sf::Uint16 UDPConnection::id() const
 {
@@ -21,7 +21,7 @@ sf::Uint16 UDPConnection::port() const
 
 bool UDPConnection::timeout() const
 {
-    return Time::time() - lastMsg > TIMEOUT_SECONDS;
+    return Time::getTime() - lastMsg > TIMEOUT_SECONDS;
 }
 
 bool UDPConnection::same(sf::IpAddress& ip, sf::Uint16 port) const
@@ -31,7 +31,7 @@ bool UDPConnection::same(sf::IpAddress& ip, sf::Uint16 port) const
 
 void UDPConnection::update()
 {
-    lastMsg = Time::time();
+    lastMsg = Time::getTime();
 }
 
 void UDPConnection::send(sf::UdpSocket& socket, sf::Packet& packet)
