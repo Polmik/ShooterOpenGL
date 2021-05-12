@@ -1,49 +1,42 @@
 #include "Menu.h"
+#include "ButtonType.h"
 
 Menu::Menu()
 {
-    buttons.assign(7, {});
-
-    buttons[0].buttonName = "PLAYGAME";
-    buttons[1].buttonName = "SETTINGS";
-    buttons[2].buttonName = "ABOUT";
-    buttons[3].buttonName = "QUIT";
-    buttons[0].ButtonTexture = ResourceManager::loadTexture(PLAYGAME_TEXTURE);
-    buttons[1].ButtonTexture = ResourceManager::loadTexture(SETTINGS_TEXTURE);
-    buttons[2].ButtonTexture = ResourceManager::loadTexture(ABOUT_TEXTURE);
-    buttons[3].ButtonTexture = ResourceManager::loadTexture(QUIT_TEXTURE);
-
-    buttons[0].ButtonPressedTexture = ResourceManager::loadTexture(PLAYGAME_PRESSED_TEXTURE);
-    buttons[1].ButtonPressedTexture = ResourceManager::loadTexture(SETTINGS_PRESSED_TEXTURE);
-    buttons[2].ButtonPressedTexture = ResourceManager::loadTexture(ABOUT_PRESSED_TEXTURE);
-    buttons[3].ButtonPressedTexture = ResourceManager::loadTexture(QUIT_PRESSED_TEXTURE);
-
-    buttons[4].buttonName = "TEXTURING";
-    buttons[5].buttonName = "SMOOTHING";
-    buttons[6].buttonName = "COLLISION";
-    buttons[4].ButtonTexture = ResourceManager::loadTexture(TEXTURING_SELECT);
-    buttons[5].ButtonTexture = ResourceManager::loadTexture(SMOOTHING_SELECT);
-    buttons[6].ButtonTexture = ResourceManager::loadTexture(COLLISION_SELECT);
-
-    buttons[4].ButtonPressedTexture = ResourceManager::loadTexture(TEXTURING_SELECT_S);
-    buttons[5].ButtonPressedTexture = ResourceManager::loadTexture(SMOOTHING_SELECT_S);
-    buttons[6].ButtonPressedTexture = ResourceManager::loadTexture(COLLISION_SELECT_S);
+    std::vector<std::string> mainMenu{ ButtonType::PlayGame, ButtonType::Settings, ButtonType::About, ButtonType::Quit };
+    std::vector<std::string> settings{ ButtonType::Texturing, ButtonType::Smoothing, ButtonType::Collision };
+    
+    int countButtons = mainMenu.size() + settings.size();
+    buttons.assign(countButtons, {});
+    int j = 0;
+    // Main
+    buttons[j++] = GetButton(ButtonType::PlayGame, PLAYGAME_TEXTURE, PLAYGAME_PRESSED_TEXTURE);
+    buttons[j++] = GetButton(ButtonType::Settings, SETTINGS_TEXTURE, SETTINGS_PRESSED_TEXTURE);
+    buttons[j++] = GetButton(ButtonType::About, ABOUT_TEXTURE, ABOUT_PRESSED_TEXTURE);
+    buttons[j++] = GetButton(ButtonType::Quit, QUIT_TEXTURE, QUIT_PRESSED_TEXTURE);
+    // Settings
+    buttons[j++] = GetButton(ButtonType::Texturing, TEXTURING_SELECT, TEXTURING_SELECT_S, b_textures);
+    buttons[j++] = GetButton(ButtonType::Smoothing, SMOOTHING_SELECT, SMOOTHING_SELECT_S, b_smooth);
+    buttons[j++] = GetButton(ButtonType::Collision, COLLISION_SELECT, COLLISION_SELECT_S, b_collision);
 
     for (size_t i = 0; i < buttons.size(); i++)
     {
         buttons[i].buttonSprite.setTexture(*buttons[i].ButtonTexture);
-        if (i < 4)
-            buttons[i].buttonSprite.setPosition((float)SCREEN_WIDTH / 2 - 170, (float)50 + 150 * i);
-        else
-            buttons[i].buttonSprite.setPosition((float)SCREEN_WIDTH / 2 - 170, (float)50 + 150 * (i - 4));
+        int multy = i < mainMenu.size() ? i : i - mainMenu.size();
+        buttons[i].buttonSprite.setPosition((float)SCREEN_WIDTH / 2 - 170, (float)50 + 150 * multy);
+        if (buttons[i].isInitPressed) {
+            buttons[i].pressButton();
+        }
     }
+}
 
-    if (b_textures)
-        buttons[4].pressButton();
-    if (b_smooth)
-        buttons[5].pressButton();
-    if (b_collision)
-        buttons[6].pressButton();
+Button Menu::GetButton(std::string name, std::string texture, std::string pressedTexture, bool isPressed) {
+    Button b = Button();
+    b.buttonName = name;
+    b.ButtonTexture = ResourceManager::loadTexture(texture);
+    b.ButtonPressedTexture = ResourceManager::loadTexture(pressedTexture);
+    b.isInitPressed = isPressed;
+    return b;
 }
 
 void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
@@ -75,22 +68,22 @@ void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
                 buttons[i].unselectButton();
                 if (!b_settings)
                 {
-                    if (buttons[i].buttonName == "PLAYGAME")
+                    if (buttons[i].buttonName == ButtonType::PlayGame)
                     {
                         b_pause = false;
                         b_pressing = false;
                     }
-                    else if (buttons[i].buttonName == "SETTINGS")
+                    else if (buttons[i].buttonName == ButtonType::Settings)
                     {
                         b_settings = true;
                         b_pressing = false;
                     }
-                    else if (buttons[i].buttonName == "ABOUT")
+                    else if (buttons[i].buttonName == ButtonType::About)
                     {
                         b_about = true;
                         b_pressing = false;
                     }
-                    else if (buttons[i].buttonName == "QUIT")
+                    else if (buttons[i].buttonName == ButtonType::Quit)
                     {
                         window.close();
                         b_pressing = false;
@@ -98,19 +91,19 @@ void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
                 }
                 else
                 {
-                    if (buttons[i].buttonName == "TEXTURING")
+                    if (buttons[i].buttonName == ButtonType::Texturing)
                     {
                         buttons[i].pressButton();
                         b_textures = buttons[i].isPressed;
                         b_pressing = false;
                     }
-                    else if (buttons[i].buttonName == "SMOOTHING")
+                    else if (buttons[i].buttonName == ButtonType::Smoothing)
                     {
                         buttons[i].pressButton();
                         b_smooth = buttons[i].isPressed;
                         b_pressing = false;
                     }
-                    else if (buttons[i].buttonName == "COLLISION")
+                    else if (buttons[i].buttonName == ButtonType::Collision)
                     {
                         buttons[i].pressButton();
                         b_collision = buttons[i].isPressed;

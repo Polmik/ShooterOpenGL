@@ -22,6 +22,8 @@ private:
     double lastTime = 0;
 
     bool b_pressed = false;
+
+    Button GetButton(std::string name, std::string texture, std::string pressedTexture, bool isPressed = false);
 public:
     Menu();
 

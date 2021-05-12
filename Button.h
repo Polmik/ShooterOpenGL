@@ -12,6 +12,7 @@ struct Button
 
     bool isSelected = false;
     bool isPressed = false;
+    bool isInitPressed = false;
 
     void selectButton();
     void unselectButton();

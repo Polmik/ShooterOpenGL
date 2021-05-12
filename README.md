@@ -1,1 +1,4 @@
-# ThesisProject
+# Как собрать проект
+1. Отредактировать путь к SFML библиотеке в файле CMakeLists.txt
+2. Скомпилировать CMakeLists.txt
+3. Скопировать содержимое Copy в out
