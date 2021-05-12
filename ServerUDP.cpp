@@ -2,6 +2,10 @@
 #include "Time.h"
 #include "MsgType.h"
 #include "settings.h"
+#include <fstream>
+#include <sstream>
+#include "Point2D.h"
+#include "Point3D.h"
 
 ServerUDP::ServerUDP(World& world) : _world(world), _lastBroadcast(-INFINITY), _working(false)
 {
@@ -158,4 +162,61 @@ bool ServerUDP::process()
         break;
     }
     return true;
+}
+
+struct Point4D {
+    double x = 0;
+    double y = 0;
+    double z = 0;
+    double w = 0;
+};
+
+bool ServerUDP::loadObjSpawns(const std::string& filename, double scale) {
+    std::vector<Point3D> vertices;
+    std::vector<Point4D> indices;
+
+    std::ifstream file(filename);
+
+    int numb = 0;
+
+    while (file) {
+        std::string str;
+        std::getline(file, str);
+        if (str == "" || str == "\r" || str == "\n")
+            continue;
+
+        std::string type = str.substr(0, 2);
+        str = str.substr(2, str.size());
+
+        if (type == "v ") {
+            std::stringstream str_stream(str);
+            float x; float y; float z;
+            str_stream >> x >> y >> z;
+
+            vertices.push_back({ x, y, z });
+        }
+        /*
+        # f v1/vt1/vn1 v2/vt2/vn2 v3/vt3/vn3 v4/vt4/vn4
+        # v1 - индекс из списка вершин
+        # vt1 - индекс из списка текс.координат
+        # vn1 - индекс из списка нормалей
+        */
+
+        if (type == "f ") {
+            int i1 = 0; int i2 = 0; int i3 = 0; int i4 = 0;
+
+            const char* buffer = str.c_str();
+
+            sscanf(buffer, "%d %d %d %d", &i1, &i2, &i3, &i4);
+
+            indices.push_back({ static_cast<double>(i1 - 1), static_cast<double>(i2 - 1), static_cast<double>(i3 - 1), static_cast<double>(i4 - 1) });
+        }
+    }
+
+    for (size_t i = 0; i < indices.size(); i++) {
+        Point2D spawn = { vertices[indices[i].x].x * scale, vertices[indices[i].y].z * scale };
+        addSpawn(spawn);
+    }
+
+    return !indices.empty();
 }

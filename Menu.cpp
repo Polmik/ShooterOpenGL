@@ -1,28 +1,25 @@
 #include "Menu.h"
-#include "ButtonType.h"
 
 Menu::Menu()
 {
-    std::vector<std::string> mainMenu{ ButtonType::PlayGame, ButtonType::Settings, ButtonType::About, ButtonType::Quit };
-    std::vector<std::string> settings{ ButtonType::Texturing, ButtonType::Smoothing, ButtonType::Collision };
-    
-    int countButtons = mainMenu.size() + settings.size();
-    buttons.assign(countButtons, {});
-    int j = 0;
-    // Main
-    buttons[j++] = GetButton(ButtonType::PlayGame, PLAYGAME_TEXTURE, PLAYGAME_PRESSED_TEXTURE);
-    buttons[j++] = GetButton(ButtonType::Settings, SETTINGS_TEXTURE, SETTINGS_PRESSED_TEXTURE);
-    buttons[j++] = GetButton(ButtonType::About, ABOUT_TEXTURE, ABOUT_PRESSED_TEXTURE);
-    buttons[j++] = GetButton(ButtonType::Quit, QUIT_TEXTURE, QUIT_PRESSED_TEXTURE);
-    // Settings
-    buttons[j++] = GetButton(ButtonType::Texturing, TEXTURING_SELECT, TEXTURING_SELECT_S, b_textures);
-    buttons[j++] = GetButton(ButtonType::Smoothing, SMOOTHING_SELECT, SMOOTHING_SELECT_S, b_smooth);
-    buttons[j++] = GetButton(ButtonType::Collision, COLLISION_SELECT, COLLISION_SELECT_S, b_collision);
+    menuButtons = {
+        GetButton(ButtonType::PlayGame, PLAYGAME_TEXTURE, PLAYGAME_PRESSED_TEXTURE),
+        GetButton(ButtonType::Settings, SETTINGS_TEXTURE, SETTINGS_PRESSED_TEXTURE),
+        GetButton(ButtonType::About, ABOUT_TEXTURE, ABOUT_PRESSED_TEXTURE),
+        GetButton(ButtonType::Quit, QUIT_TEXTURE, QUIT_PRESSED_TEXTURE),
+    };
+    settingButtons = {
+        GetButton(ButtonType::Texturing, TEXTURING_SELECT, TEXTURING_SELECT_S, b_textures),
+        GetButton(ButtonType::Smoothing, SMOOTHING_SELECT, SMOOTHING_SELECT_S, b_smooth),
+        GetButton(ButtonType::Collision, COLLISION_SELECT, COLLISION_SELECT_S, b_collision),
+    };
+    buttons.insert(buttons.end(), menuButtons.begin(), menuButtons.end());
+    buttons.insert(buttons.end(), settingButtons.begin(), settingButtons.end());
 
     for (size_t i = 0; i < buttons.size(); i++)
     {
         buttons[i].buttonSprite.setTexture(*buttons[i].ButtonTexture);
-        int multy = i < mainMenu.size() ? i : i - mainMenu.size();
+        int multy = i < menuButtons.size() ? i : i - menuButtons.size();
         buttons[i].buttonSprite.setPosition((float)SCREEN_WIDTH / 2 - 170, (float)50 + 150 * multy);
         if (buttons[i].isInitPressed) {
             buttons[i].pressButton();
@@ -89,7 +86,7 @@ void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
                         b_pressing = false;
                     }
                 }
-                else
+                else if (b_settings)
                 {
                     if (buttons[i].buttonName == ButtonType::Texturing)
                     {
@@ -113,7 +110,7 @@ void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
             }
         }
 
-        if (!b_settings && !b_about && i < 4)
+        if (!b_settings && !b_about && i < menuButtons.size())
             window.draw(buttons[i].buttonSprite);
     }
 
@@ -141,7 +138,7 @@ void Menu::settings(sf::RenderTarget& window)
     if (!b_settings)
         return;
 
-    for (size_t i = 4; i < buttons.size(); i++)
+    for (size_t i = menuButtons.size(); i < buttons.size(); i++)
         window.draw(buttons[i].buttonSprite);
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))

@@ -5,11 +5,14 @@
 #include "settings.h"
 #include "Camera.h"
 #include "Button.h"
+#include "ButtonType.h"
 
 class Menu
 {
 private:
     std::vector<Button> buttons;
+    std::vector<Button> menuButtons;
+    std::vector<Button> settingButtons;
 
     bool b_pause = true;
 

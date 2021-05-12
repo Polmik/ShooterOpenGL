@@ -43,10 +43,10 @@
 #define FILL_RENDER_COLOR {255, 255, 255, 255}
 
 // SCREEN SIZE
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 1920
+#define SCREEN_HEIGHT 1000
 
-#define DISTANCES_SEGMENTS 800 // How much vertical sectors we use in ray cast
+#define DISTANCES_SEGMENTS SCREEN_WIDTH // How much vertical sectors we use in ray cast
 #define FLOOR_SEGMENT_SIZE 8
 
 //BACKGROUND
@@ -55,9 +55,6 @@
 #define FILL_BACK_COLOR {255, 255, 255, 255}
 
 //TEXTURES
-
-#define MY_MAC_PATH "/Users/ivanilin/CLionProjects/pseudo3DEngine/cmake-build-release/"
-
 #define WALL_TEXTURE "texture/building_texture.png"
 #define WALL_TEXTURE2 "texture/brickWall2.jpg"
 #define COLUMN_TEXTURE "texture/column.png"

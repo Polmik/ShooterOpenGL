@@ -517,12 +517,18 @@ bool Camera::keyboardControl(double elapsedTime, sf::RenderWindow& window)
     {
         d_vSpeed = d_jumpSpeed * (health() / 1000 * 7 + 0.3); // health modificator from 0.3 to 1 => 0.3 + (health / 100) * 0.7
     }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::O))
+    {
+        client->shoot(getName(), 100, 1);
+    }
+
 
     // Fire
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
-        if (v_weapons[i_selectedWeapon].isFire())
+        if (v_weapons[i_selectedWeapon].isFire()) {
             fire();
+        }
     }
 
     // Mouse movement
