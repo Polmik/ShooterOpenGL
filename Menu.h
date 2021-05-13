@@ -18,6 +18,7 @@ private:
 
     bool b_settings = false;
     bool b_about = false;
+    bool b_maps = false;
 
     bool b_textures = true;
     bool b_smooth = false;
@@ -33,6 +34,7 @@ public:
     void drawMenu(sf::RenderWindow& window, double elapsedTime);
     void settings(sf::RenderTarget& window);
     void about(sf::RenderTarget& window);
+    void maps(sf::RenderTarget& window);
 
     bool isPaused();
     void setPause(bool active = true);

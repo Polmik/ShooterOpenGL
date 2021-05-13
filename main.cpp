@@ -254,7 +254,7 @@ public:
     int InitProgramm()
     {
         // Window should be created first because of drawing context.
-        sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pseudo3DEngine");
+        sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Game");
         window.setFramerateLimit(140);
 
         // Sounds
@@ -298,7 +298,7 @@ public:
             double d_elapsedTime = Time::getDeltaTime();
 
             // Title update
-            std::string title = "Pseudo3DEngine " + std::to_string((double)1 / d_elapsedTime) + "fps.";
+            std::string title = "Game " + std::to_string((double)1 / d_elapsedTime) + "fps.";
             if (camera != nullptr)
                 title += " x:" + std::to_string(camera->x()) + ", y:" + std::to_string(camera->y()) + ", health: " + std::to_string(camera->health());
             window.setTitle(title);

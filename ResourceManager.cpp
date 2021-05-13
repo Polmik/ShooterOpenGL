@@ -53,7 +53,6 @@ namespace ResourceManager
 		// If success - remember and return texture pointer
 		texture->setRepeated(true);
 		_textures.emplace(filename, texture);
-
 		return texture.get();
 	}
 

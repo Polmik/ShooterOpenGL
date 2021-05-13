@@ -7,6 +7,7 @@ public:
 	static std::string PlayGame;
 	static std::string Settings;
 	static std::string About;
+	static std::string Maps;
 	static std::string Quit;
 	static std::string Texturing;
 	static std::string Smoothing;

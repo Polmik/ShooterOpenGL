@@ -1,4 +1,8 @@
 #include "Menu.h"
+#include <string>
+#include <iostream>
+#include <filesystem>
+
 
 Menu::Menu()
 {
@@ -6,6 +10,7 @@ Menu::Menu()
         GetButton(ButtonType::PlayGame, PLAYGAME_TEXTURE, PLAYGAME_PRESSED_TEXTURE),
         GetButton(ButtonType::Settings, SETTINGS_TEXTURE, SETTINGS_PRESSED_TEXTURE),
         GetButton(ButtonType::About, ABOUT_TEXTURE, ABOUT_PRESSED_TEXTURE),
+        GetButton(ButtonType::Maps, MAPS_TEXTURE, MAPS_PRESSED_TEXTURE),
         GetButton(ButtonType::Quit, QUIT_TEXTURE, QUIT_PRESSED_TEXTURE),
     };
     settingButtons = {
@@ -80,6 +85,11 @@ void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
                         b_about = true;
                         b_pressing = false;
                     }
+                    else if (buttons[i].buttonName == ButtonType::Maps)
+                    {
+                        b_maps = true;
+                        b_pressing = false;
+                    }
                     else if (buttons[i].buttonName == ButtonType::Quit)
                     {
                         window.close();
@@ -107,15 +117,37 @@ void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
                         b_pressing = false;
                     }
                 }
+                else if (b_maps)
+                {
+                    if (buttons[i].buttonName == ButtonType::Texturing)
+                    {
+                        buttons[i].pressButton();
+                        b_textures = buttons[i].isPressed;
+                        b_pressing = false;
+                    }
+                    else if (buttons[i].buttonName == ButtonType::Smoothing)
+                    {
+                        buttons[i].pressButton();
+                        b_smooth = buttons[i].isPressed;
+                        b_pressing = false;
+                    }
+                    else if (buttons[i].buttonName == ButtonType::Collision)
+                    {
+                        buttons[i].pressButton();
+                        b_collision = buttons[i].isPressed;
+                        b_pressing = false;
+                    }
+                }
             }
         }
 
-        if (!b_settings && !b_about && i < menuButtons.size())
+        if (!b_settings && !b_about && !b_maps && i < menuButtons.size())
             window.draw(buttons[i].buttonSprite);
     }
 
     settings(window);
     about(window);
+    maps(window);
 }
 
 void Menu::about(sf::RenderTarget& window)
@@ -131,6 +163,120 @@ void Menu::about(sf::RenderTarget& window)
     window.draw(button);
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         b_about = false;
+}
+
+void Menu::maps(sf::RenderTarget& window)
+{
+    if (!b_maps)
+        return;
+
+    sf::Sprite button;
+    sf::Text textMaps;
+    sf::Text textPreview;
+
+    const int offset = 20;
+    float xPosS1 = 10;
+    float yPosS1 = offset;
+    float xS1 = SCREEN_WIDTH - offset - offset * 0.75;
+    float yS1 = SCREEN_HEIGHT - offset - offset * 0.75;
+    float lineSize = 5;
+
+    sf::RectangleShape rectangle1(sf::Vector2f(120.f, 50.f));
+    rectangle1.setSize(sf::Vector2f(xS1 - lineSize * 2, yS1 - lineSize * 2));
+    rectangle1.setFillColor(sf::Color::White);
+    rectangle1.setPosition(xPosS1 + lineSize, yPosS1 + lineSize);
+    rectangle1.setOutlineColor(sf::Color::Black);
+    rectangle1.setOutlineThickness(lineSize);
+
+    float xPosS2 = xPosS1 + 10 + 20;
+    float yPosS2 = yPosS1 + 10 + 40;
+    float xS2 = SCREEN_WIDTH - offset - offset * 0.75 - xPosS2 * 1.5;
+    float yS2 = SCREEN_HEIGHT - offset - offset * 0.75 - yPosS2;
+    sf::RectangleShape rectangle3(sf::Vector2f(120.f, 50.f));
+    rectangle3.setSize(sf::Vector2f(xS2 - lineSize * 2, yS2 - lineSize * 2));
+    rectangle3.setFillColor(sf::Color::White);
+    rectangle3.setPosition(xPosS2 + lineSize, yPosS2 + lineSize);
+    rectangle3.setOutlineColor(sf::Color::Black);
+    rectangle3.setOutlineThickness(lineSize);
+
+    float xPosS3 = xPosS2 + lineSize;
+    float yPosS3 = yPosS2 + lineSize;
+    float xS3 = SCREEN_WIDTH - offset - offset * 0.75 - xPosS3 * 1.5;
+    float yS3 = SCREEN_HEIGHT - offset - offset * 0.75 - yPosS3;
+    sf::RectangleShape rectangle5(sf::Vector2f(120.f, 50.f));
+    rectangle5.setSize(sf::Vector2f((xS2 - lineSize * 2) / 4 - lineSize, yS2 - lineSize * 2));
+    rectangle5.setFillColor(sf::Color::White);
+    rectangle5.setPosition(xPosS3, yPosS3);
+    rectangle5.setOutlineColor(sf::Color::Black);
+    rectangle5.setOutlineThickness(lineSize);
+    sf::RectangleShape rectangle6(sf::Vector2f(120.f, 50.f));
+    rectangle6.setSize(sf::Vector2f(lineSize + xS2 - lineSize * 2 - (xS2 - lineSize * 2) / 4 - lineSize, yS2 - lineSize * 2));
+    rectangle6.setFillColor(sf::Color::White);
+    rectangle6.setPosition(xPosS3 + lineSize + (xS2 - lineSize * 2) / 4 - lineSize, yPosS3);
+
+    textMaps.setFont(*ResourceManager::loadFont(TEXT_FONT));
+    textMaps.setCharacterSize(38);
+    textMaps.setFillColor(sf::Color::Black);
+    textMaps.setPosition(xPosS2 + lineSize * 2, yPosS2 - lineSize * 2 - 38);
+    textMaps.setString("Maps");
+
+    textPreview.setFont(*ResourceManager::loadFont(TEXT_FONT));
+    textPreview.setCharacterSize(38);
+    textPreview.setFillColor(sf::Color::Black);
+    textPreview.setPosition(SCREEN_HEIGHT / 2 - (xPosS2 + lineSize) / 6 + 5, yPosS2 - lineSize * 2 - 38);
+    textPreview.setString("Preview");
+
+    namespace fs = std::filesystem;
+    struct MapObj {
+        std::string path;
+        std::string preview;
+    };
+    std::vector<MapObj> objects;
+    std::string path = "maps\\";
+    for (const auto& entry : fs::directory_iterator(path)) {
+        fs::path p = entry.path();
+        if (p.string().find(".obj") != std::string::npos) {
+            std::string prev = p.string().replace(p.string().find(".obj"), 4, "_preview.jpg");
+            struct stat buffer;
+            bool is_exist = (stat(prev.c_str(), &buffer) == 0);
+
+            MapObj m = MapObj();
+            m.path = p.string();
+            m.preview = is_exist ? prev : NOT_FOUND;
+            objects.push_back(m);
+        }
+    }
+
+    // TODO: Add selection
+    MapObj o = objects[0];
+    rectangle6.setTexture(ResourceManager::loadTexture(o.preview));
+    textPreview.setString("Preview: " + o.path);
+
+    window.draw(rectangle1);
+    window.draw(rectangle3);
+    window.draw(rectangle5);
+    window.draw(rectangle6);
+    window.draw(textMaps);
+    window.draw(textPreview); 
+
+    float sX = xPosS2 + lineSize * 2;
+    float sY = yPosS2 - lineSize * 2 - 38;
+    float curr = sY;
+    float off = 50;
+    for (const auto& oobj : objects) {
+        sf::Text t;
+        t.setFont(*ResourceManager::loadFont(TEXT_FONT));
+        t.setCharacterSize(38);
+        t.setFillColor(sf::Color::Black);
+        curr += off;
+        t.setPosition(sX, curr);
+        t.setString(oobj.path);
+        window.draw(t);
+    }
+
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        b_maps = false;
 }
 
 void Menu::settings(sf::RenderTarget& window)
