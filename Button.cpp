@@ -22,7 +22,6 @@ void Button::unselectButton()
 
 void Button::pressButton()
 {
-    sf::Texture texture = isPressed ? *ButtonTexture : *ButtonPressedTexture;
+    buttonSprite.setTexture(!isPressed ? (*ButtonPressedTexture) : (*ButtonTexture));
     isPressed = !isPressed;
-    buttonSprite.setTexture(texture);
 }

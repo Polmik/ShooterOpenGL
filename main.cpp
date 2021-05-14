@@ -57,7 +57,7 @@ void InitNetwork(ServerUDP& server, ClientUDP& client)
 }
 
 int InitApp() {
-    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Unicorn");
+    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Game");
     window.setFramerateLimit(120);
 
     // Sounds
