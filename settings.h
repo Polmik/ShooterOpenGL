@@ -56,17 +56,10 @@
 
 //TEXTURES
 #define WALL_TEXTURE "texture/building_texture.png"
-#define WALL_TEXTURE2 "texture/brickWall2.jpg"
 #define COLUMN_TEXTURE "texture/column.png"
-#define VOLODYA_TEXTURE "texture/volodya.jpg"
-#define FROZEN_TEXTURE "texture/frozen.jpg"
-#define DOG_TEXTURE "texture/dog.jpg"
-#define DINOZAVR_TEXTURE "texture/dinozavr.png"
-#define WHITE_TEXTURE "texture/white.jpg"
-#define BLACK_TEXTURE "texture/black.jpg"
 
 #define SKY_TEXTURE "texture/back.jpg"
-#define FLOOR_TEXTURE "texture/173483.jpg"
+#define FLOOR_TEXTURE "texture/floor.jpg"
 
 #define PLAYGAME_PRESSED_TEXTURE "texture/buttons/playGameSelected.jpg"
 #define SETTINGS_PRESSED_TEXTURE "texture/buttons/settingsSelected.jpg"
@@ -88,14 +81,10 @@
 #define SMOOTHING_SELECT_S "texture/buttons/smoothingSelected.jpg"
 #define COLLISION_SELECT_S "texture/buttons/collosionSelected.jpg"
 
-#define INSTRUCTION_TEXTURE "texture/instruction.jpg"
-
 // WINDOWS
-
 #define TIMEQUANTA 0.1
 
 // WEAPONS
-
 #define SHOTGUN_TEXTURE "texture/weapons/shotgun.png"
 #define SHOTGUN_ARM_TEXTURE "texture/weapons/shotgun_arm.png"
 #define SHOTGUN_HANDLE_TEXTURE "texture/weapons/shotgun_handle.png"
@@ -116,6 +105,5 @@
 #define VIEW_BONUS_TEXTURE "texture/viewBonus.png"
 
 #define TEXT_FONT "fonts/19471.ttf"
-
 
 #endif //SETTINGS_H

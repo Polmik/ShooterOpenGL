@@ -5,15 +5,15 @@
 
 enum class MsgType
 {
-    None,         // Empty message
-    Fake,         // Fake message
-    Confirm,      // confirm receive
-    Connect,      // connection to server
-    Disconnect,   // disconnect from server
-    WorldInit,    // world initialization from server to client
-    WorldUpdate,  // world update from server to client
-    PlayerUpdate, // player update from client to server
-    Shoot,        // player shooted from client to server
+    None,        
+    Fake,        
+    Confirm,     
+    Connect,     
+    Disconnect,  
+    WorldInit,   
+    WorldUpdate, 
+    PlayerUpdate,
+    Shoot,       
 };
 
 sf::Packet& operator<<(sf::Packet& packet, MsgType type);

@@ -96,17 +96,6 @@ bool Object2D::isCross(const std::pair<Point2D, Point2D>& ray, std::pair<Point2D
             break;
     }
 
-    // ------------
-    /*
-    if (segments_crossing(ray, segment2, crossPoint) && (point - ray.first).abs() > (crossPoint - ray.first).abs())
-    {
-        success = true;
-        point = crossPoint;
-        wall = std::move(segment2);
-    }
-    */
-    // ------------
-
     if (success)
     {
         uv = (wall.second - point).abs();

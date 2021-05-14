@@ -35,14 +35,14 @@ bool Circle2D::isCross(const std::pair<Point2D, Point2D>& ray, std::pair<Point2D
 
         if (t2 >= 0 && t2 <= 1)
         {
-            point.x = ray.first.x + t2 * d.x;
             point.y = ray.first.y + t2 * d.y;
+            point.x = ray.first.x + t2 * d.x;
             isSuccess = true;
         }
         else if (t1 >= 0 && t1 <= 1)
         {
-            point.x = ray.first.x + t1 * d.x;
             point.y = ray.first.y + t1 * d.y;
+            point.x = ray.first.x + t1 * d.x;
             isSuccess = true;
         }
     }

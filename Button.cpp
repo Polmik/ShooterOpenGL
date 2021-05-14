@@ -4,9 +4,9 @@ void Button::selectButton()
 {
     if (!isSelected && !isPressed)
     {
-        isSelected = true;
         buttonSprite.setTexture(*ButtonPressedTexture);
         buttonSprite.scale({ 1.01f, 1.01f });
+        isSelected = !isSelected;
     }
 }
 
@@ -14,20 +14,15 @@ void Button::unselectButton()
 {
     if (isSelected && !isPressed)
     {
-        isSelected = false;
         buttonSprite.setTexture(*ButtonTexture);
         buttonSprite.scale({ 1 / 1.01f, 1 / 1.01f });
+        isSelected = !isSelected;
     }
 }
 
 void Button::pressButton()
 {
-    if (!isPressed)
-    {
-        isPressed = true;
-        buttonSprite.setTexture(*ButtonPressedTexture);
-        return;
-    }
-    isPressed = false;
-    buttonSprite.setTexture(*ButtonTexture);
+    sf::Texture texture = isPressed ? *ButtonTexture : *ButtonPressedTexture;
+    isPressed = !isPressed;
+    buttonSprite.setTexture(texture);
 }

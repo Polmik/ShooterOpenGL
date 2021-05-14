@@ -22,9 +22,7 @@ public:
 
     ObjectType getType() override;
 
-    [[nodiscard]] BonusType getBonusType() const {
-        return bonusType;
-    }
+    [[nodiscard]] BonusType getBonusType() const { return bonusType; }
 };
 
 

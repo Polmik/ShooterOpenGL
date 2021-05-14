@@ -9,7 +9,7 @@ using namespace std;
 Camera::Camera(World& world, Point2D position, double vPos, double height, double direction, double health, std::string texture, double fieldOfView, double eyesHeight, double depth, double walkSpeed, double jumpSpeed, double viewSpeed)
     : W_world(world), Player(position, vPos, height, health, texture), d_direction(direction), d_eyesHeight(eyesHeight), d_depth(depth), d_walkSpeed(walkSpeed), d_jumpSpeed(jumpSpeed), d_viewSpeed(viewSpeed)
 {
-    Weapon weapon1(30);
+    Weapon weapon1(35);
     weapon1.choiceWeapon("shotgun");
     v_weapons.push_back(weapon1);
 
@@ -80,25 +80,6 @@ void Camera::setFieldOfView(double angle) {
     }
 }
 
-//Camera::Camera(const Camera& camera) : Player(camera), W_world(camera.W_world)
-//{
-//    v_distances = camera.v_distances;
-//    allCollisions = camera.allCollisions;
-//    d_direction = camera.d_direction;
-//    d_depth = camera.d_depth;
-//    d_fieldOfView = camera.d_fieldOfView;
-//    d_eyesHeight = camera.d_eyesHeight;
-//    d_walkSpeed = camera.d_walkSpeed;
-//    d_viewSpeed = camera.d_viewSpeed;
-//    b_collision = camera.b_collision;
-//    b_textures = camera.b_textures;
-//    b_smooth = camera.b_smooth;
-//    localMousePosition = camera.localMousePosition;
-//    v_weapons = camera.v_weapons;
-//    i_selectedWeapon = camera.i_selectedWeapon;
-//    walkSound = camera.walkSound;
-//}
-
 bool Camera::isSmooth()
 {
     return b_smooth;
@@ -166,7 +147,6 @@ void Camera::objectsRayCrossed(const pair<Point2D, Point2D>& ray, std::vector<Ra
             continue;
 
         // Check crossing
-
         Point2D crossPoint = ray.second;
         std::vector<RayCastStructure> v_reflectedRayCastStructure;
 
@@ -522,7 +502,6 @@ bool Camera::keyboardControl(double elapsedTime, sf::RenderWindow& window)
         client->shoot(getName(), 100, 1);
     }
 
-
     // Fire
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
@@ -603,14 +582,11 @@ void Camera::drawVerticalStrip(sf::RenderTarget& window, const RayCastStructure&
         if (alpha < 0)
             alpha = 0;
 
-        //alpha = 255 - alpha;
-
         if (!b_textures)
             polygon.setFillColor({ 255, 174, 174, static_cast<sf::Uint8>(255 - alpha) });
         else
             polygon.setFillColor({ 255, 255, 255, static_cast<sf::Uint8>(255 - alpha) });
 
-        //polygon.setOutlineThickness(0); // we can make non zero thickness for debug
         polygon.setPosition((float)(shift * SCREEN_WIDTH / DISTANCES_SEGMENTS), d_verticalShift);
 
         sf::Sprite sprite;
@@ -684,11 +660,6 @@ void Camera::drawVerticalStrip(sf::RenderTarget& window, const RayCastStructure&
         int top = (int)(scale * (position().y + offset * verMod));
 
         int alpha2 = 255 * 5 * (z - SCREEN_HEIGHT / 5) / SCREEN_HEIGHT / 4;
-
-        //if(alpha2 > 255)
-        //    alpha2 = 255;
-
-
         sf::Sprite& floor = W_world.floor();
 
         floor.setTextureRect(sf::IntRect(left, top, FLOOR_SEGMENT_SIZE, FLOOR_SEGMENT_SIZE));
@@ -707,7 +678,7 @@ void Camera::recursiveDrawing(sf::RenderTarget& window, const std::vector<RayCas
     double mirrorBotSave = mirrorBot;
     for (const auto& k : v_RayCastStructure)
     {
-        if (i + 1 != v_RayCastStructure.size() || (rec != 1))
+        if ((i + 1) != v_RayCastStructure.size() || (rec != 1))
             drawVerticalStrip(window, k, shift, 0);
         else
             drawVerticalStrip(window, k, shift, 1);
@@ -807,31 +778,7 @@ void Camera::drawCameraView(sf::RenderTarget& window)
         }
     }
 
-    // ------- SEVERAL THREADS ------
-    /*
-    window.setActive(false);
-    vector<shared_ptr<thread>> threads;
-    for(int i = 0; i < thread::hardware_concurrency(); i++) {
-        int step = static_cast<int>(DISTANCES_SEGMENTS/thread::hardware_concurrency());
-
-        int from    = i * step;
-        int to      = from + step;
-        if(i == thread::hardware_concurrency() - 1)
-            to      = DISTANCES_SEGMENTS;
-
-        threads.emplace_back(shared_ptr<thread>(new thread(&Camera::recursiveDrawing_from_to, this, &window, from, to)));
-    }
-
-    for(auto& t : threads)
-        if(t->joinable())
-            t->join();
-
-    threads.clear();
-    */
-    // ------------ END -------------
-
     // One thread style:
-
     for (int i = 0; i < DISTANCES_SEGMENTS; i++)
     {
 #ifdef BACKGROUND_THREADS
@@ -925,14 +872,14 @@ void Camera::shiftPrecise(Point2D vector, double vertical)
 
         Point2D toWallVector = c.edge.first + c.edge.second - p_position * 2;
         if(normal * toWallVector > 0)
-            normal = normal * (-1);
+            normal *= (-1);
 
         double scalar = vector * normal;
 
         if (scalar < 0 && abs(c.distance - abs(scalar)) < COLLISION_DISTANCE && vPos() + d_eyesHeight < c.height)
         {
-            vector.x -= normal.x * scalar;
             vector.y -= normal.y * scalar;
+            vector.x -= normal.x * scalar;
         }
 
     }

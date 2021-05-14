@@ -5,16 +5,6 @@ Player::Player(Point2D position, double vPos, double height, double health, std:
 {
 }
 
-//Player::Player(const Player& camera) : Circle2D(camera)
-//{
-//    d_height = camera.d_height;
-//    v_points2D = camera.v_points2D;
-//    p_position = camera.p_position;
-//    d_vPos = camera.d_vPos;
-//    d_health = camera.d_health;
-//    setName(camera.getName());
-//}
-
 ObjectType Player::getType()
 {
     return ObjectType::Player;
