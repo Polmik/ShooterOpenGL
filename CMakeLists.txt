@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7)
-set(PROJECT_NAME FPSOnline)
+set(PROJECT_NAME Game)
 
 project(${PROJECT_NAME})
 
@@ -19,8 +19,9 @@ else()
     else ()
         add_executable(${PROJECT_NAME} ${SOURCE_FILES})
     endif ()
-
-    set(SFML_DIR "D:/SFML-2.5.1/lib/cmake/SFML")
+    file(GLOB MY_RESOURCES "Resources/*")
+    file(COPY ${MY_RESOURCES} DESTINATION ${CMAKE_BINARY_DIR})
+    set(SFML_DIR "./SFML-2.5.1/lib/cmake/SFML")
 
     set(SFML_STATIC_LIBRARIES TRUE)
 
@@ -31,5 +32,5 @@ find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 if (SFML_FOUND)
     include_directories(${SFML_INCLUDE_DIR})
     target_link_libraries(${PROJECT_NAME} sfml-audio sfml-network sfml-graphics sfml-window sfml-system)
-    set(PROJECT_NAME FPSOnline)
+    set(PROJECT_NAME Game)
 endif()
