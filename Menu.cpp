@@ -9,7 +9,6 @@ Menu::Menu()
     menuButtons = {
         GetButton(ButtonType::PlayGame, PLAYGAME_TEXTURE, PLAYGAME_PRESSED_TEXTURE),
         GetButton(ButtonType::Settings, SETTINGS_TEXTURE, SETTINGS_PRESSED_TEXTURE),
-        GetButton(ButtonType::About, ABOUT_TEXTURE, ABOUT_PRESSED_TEXTURE),
         GetButton(ButtonType::Maps, MAPS_TEXTURE, MAPS_PRESSED_TEXTURE),
         GetButton(ButtonType::Quit, QUIT_TEXTURE, QUIT_PRESSED_TEXTURE),
     };
@@ -68,7 +67,7 @@ void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
             if (window.hasFocus() && b_pressing)
             {
                 buttons[i].unselectButton();
-                if (!b_settings)
+                if (!b_settings && !b_maps)
                 {
                     if (buttons[i].buttonName == ButtonType::PlayGame)
                     {
@@ -78,11 +77,6 @@ void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
                     else if (buttons[i].buttonName == ButtonType::Settings)
                     {
                         b_settings = true;
-                        b_pressing = false;
-                    }
-                    else if (buttons[i].buttonName == ButtonType::About)
-                    {
-                        b_about = true;
                         b_pressing = false;
                     }
                     else if (buttons[i].buttonName == ButtonType::Maps)
@@ -96,7 +90,7 @@ void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
                         b_pressing = false;
                     }
                 }
-                else if (b_settings)
+                else if (b_settings && !b_maps)
                 {
                     if (buttons[i].buttonName == ButtonType::Texturing)
                     {
@@ -119,50 +113,18 @@ void Menu::drawMenu(sf::RenderWindow& window, double elapsedTime)
                 }
                 else if (b_maps)
                 {
-                    if (buttons[i].buttonName == ButtonType::Texturing)
-                    {
-                        buttons[i].pressButton();
-                        b_textures = buttons[i].isPressed;
-                        b_pressing = false;
-                    }
-                    else if (buttons[i].buttonName == ButtonType::Smoothing)
-                    {
-                        buttons[i].pressButton();
-                        b_smooth = buttons[i].isPressed;
-                        b_pressing = false;
-                    }
-                    else if (buttons[i].buttonName == ButtonType::Collision)
-                    {
-                        buttons[i].pressButton();
-                        b_collision = buttons[i].isPressed;
-                        b_pressing = false;
-                    }
+                    // TODO
                 }
             }
         }
 
-        if (!b_settings && !b_about && !b_maps && i < menuButtons.size())
+        if (!b_settings && !b_about && !b_maps && i < menuButtons.size()) {
             window.draw(buttons[i].buttonSprite);
+        }
     }
 
     settings(window);
-    about(window);
     maps(window);
-}
-
-void Menu::about(sf::RenderTarget& window)
-{
-    if (!b_about)
-        return;
-
-    sf::Sprite button;
-    button.setTexture(*ResourceManager::loadTexture(ABOUT_INFO));
-
-    button.scale((float)SCREEN_WIDTH / 1920, (float)SCREEN_WIDTH / 1920);
-
-    window.draw(button);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-        b_about = false;
 }
 
 void Menu::maps(sf::RenderTarget& window)
@@ -273,7 +235,7 @@ void Menu::maps(sf::RenderTarget& window)
         t.setString(oobj.path);
         window.draw(t);
     }
-
+    
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         b_maps = false;

@@ -70,17 +70,14 @@
 
 #define PLAYGAME_PRESSED_TEXTURE "texture/buttons/playGameSelected.jpg"
 #define SETTINGS_PRESSED_TEXTURE "texture/buttons/settingsSelected.jpg"
-#define ABOUT_PRESSED_TEXTURE "texture/buttons/aboutSelected.jpg"
 #define MAPS_PRESSED_TEXTURE "texture/buttons/mapsSelected.jpg"
 #define QUIT_PRESSED_TEXTURE "texture/buttons/quitSelected.jpg"
 
 #define PLAYGAME_TEXTURE "texture/buttons/playGame.jpg"
 #define SETTINGS_TEXTURE "texture/buttons/settings.jpg"
-#define ABOUT_TEXTURE "texture/buttons/about.jpg"
 #define MAPS_TEXTURE "texture/buttons/maps.jpg"
 #define QUIT_TEXTURE "texture/buttons/quit.jpg"
 
-#define ABOUT_INFO "texture/instruction.jpg"
 #define NOT_FOUND "texture/notFound.jpg"
 
 #define TEXTURING_SELECT "texture/buttons/texturing.jpg"

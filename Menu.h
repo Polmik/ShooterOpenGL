@@ -13,6 +13,7 @@ private:
     std::vector<Button> buttons;
     std::vector<Button> menuButtons;
     std::vector<Button> settingButtons;
+    std::vector<Button> mapButtons;
 
     bool b_pause = true;
 
@@ -33,8 +34,9 @@ public:
 
     void drawMenu(sf::RenderWindow& window, double elapsedTime);
     void settings(sf::RenderTarget& window);
-    void about(sf::RenderTarget& window);
     void maps(sf::RenderTarget& window);
+    void InitMenu();
+    void InitSettings();
 
     bool isPaused();
     void setPause(bool active = true);
